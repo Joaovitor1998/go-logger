@@ -10,30 +10,6 @@ import (
 	"time"
 )
 
-func init() {
-	// Creates a temporary directory
-	err := os.Mkdir("logs", os.ModePerm)
-	// Directory already exists, no need to create it again
-	if os.IsExist(err) {
-		return
-	}
-	if err != nil {
-		fmt.Println("Error creating logs directory: ", err)
-	}
-
-}
-func main() {
-	// Create a temporary logger file inside a temp directory
-	tempFile, err := os.OpenFile("logs/testing.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
-	if err != nil {
-		fmt.Println("Error creating temp file: ", err)
-		return
-	}
-
-	fileLogger := New(tempFile)
-	fileLogger.Info("Logging to a temporary file.")
-}
-
 type LogLevel int
 
 const (
