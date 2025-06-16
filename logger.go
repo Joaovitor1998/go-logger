@@ -60,26 +60,28 @@ func New(output io.Writer) *Logger {
 }
 
 // SetLevel sets the logging level for the logger
-func (l *Logger) SetLevel(level LogLevel) {
+func (l *Logger) SetLevel(level LogLevel) *Logger {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.level = level
+	return l
 }
 
 // SetOutput sets the output destination for the logger.
-func (l *Logger) SetOutput(output io.Writer) {
+func (l *Logger) SetOutput(output io.Writer) *Logger {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.output = output
 	l.logger.SetOutput(output)
+	return l
 }
 
 // SetTimeFormat sets the time format for the logger.
-func (l *Logger) SetTimeFormat(format string) {
+func (l *Logger) SetTimeFormat(format string) *Logger {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.timeFormat = format
-
+	return l
 }
 
 // AddField adds a field to the logger.
@@ -182,14 +184,14 @@ func (l *Logger) Panic(msg string) {
 var defaultLogger = New(os.Stdout)
 
 // Package-level functions for convenience
-func SetLevel(level LogLevel)                { defaultLogger.SetLevel(level) }
-func SetOutput(w io.Writer)                  { defaultLogger.SetOutput(w) }
-func SetTimeFormat(format string)            { defaultLogger.SetTimeFormat(format) }
-func AddField(key string, value interface{}) { defaultLogger.AddField(key, value) }
-func AddFields(fields Fields)                { defaultLogger.AddFields(fields) }
-func Debug(msg string)                       { defaultLogger.Debug(msg) }
-func Info(msg string)                        { defaultLogger.Info(msg) }
-func Warn(msg string)                        { defaultLogger.Warn(msg) }
-func Error(msg string)                       { defaultLogger.Error(msg) }
-func Fatal(msg string)                       { defaultLogger.Fatal(msg) }
-func Panic(msg string)                       { defaultLogger.Panic(msg) }
+func SetLevel(level LogLevel) *Logger                { return defaultLogger.SetLevel(level) }
+func SetOutput(w io.Writer) *Logger                  { return defaultLogger.SetOutput(w) }
+func SetTimeFormat(format string) *Logger            { return defaultLogger.SetTimeFormat(format) }
+func AddField(key string, value interface{}) *Logger { return defaultLogger.AddField(key, value) }
+func AddFields(fields Fields) *Logger                { return defaultLogger.AddFields(fields) }
+func Debug(msg string)                               { defaultLogger.Debug(msg) }
+func Info(msg string)                                { defaultLogger.Info(msg) }
+func Warn(msg string)                                { defaultLogger.Warn(msg) }
+func Error(msg string)                               { defaultLogger.Error(msg) }
+func Fatal(msg string)                               { defaultLogger.Fatal(msg) }
+func Panic(msg string)                               { defaultLogger.Panic(msg) }
